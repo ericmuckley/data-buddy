@@ -1,10 +1,15 @@
 body {
-  background-color: #dee2e6;
+  background-color: #dee2e6;;
 }
 
-input {
+input, select {
   border: 1px solid darkorange !important;
 }
+
+
+
+select:hover,
+select:active,
 textarea:hover, 
 input:hover, 
 textarea:active, 
@@ -18,34 +23,55 @@ label:focus,
 .btn:active,
 .btn.active
 {
-    outline:1px solid orange !important;
-    -webkit-appearance:none;
-    box-shadow: none !important;
+  outline: 1px solid orange !important;
+  -webkit-appearance: none !important;
+  box-shadow: none !important;
 }
 
 
-/*
-.dark-link {
-  color: #0dcaf0;
+.my-link {
+  color: darkorange;
   text-decoration: none;
   cursor: pointer;
 }
-.dark-link:hover{
-  color: #0dcaf0;
+.my-link:hover{
+  color: darkorange;
   cursor: pointer;
   text-decoration: underline;
   text-underline-offset: 0.2rem;
   text-decoration-thickness: 0.3rem;
 }
-*/
 
-/*
-.navbar {
-  padding-left: 0px;
-  padding-right: 0px;
-  box-shadow: 0px 10px 20px black;
+.my-div {
+  border: 1px solid darkorange;
+  border-radius: 15px;
+  padding: 10px;
+  background-color: #dee2e6;
+  /*box-shadow: 0px 1px 3px darkorange;*/
 }
 
+
+
+.navbar .nav-link {
+  color: darkorange;
+  /*
+  font-weight: 400;
+  font-size: 1.25rem;
+  
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+  */
+}
+.navbar .nav-link:hover {
+  color: #dee2e6;
+  /*
+  border-bottom: 5px solid #dee2e6;
+  margin-bottom: -5px;
+  */
+}
+
+
+/*
 .navbar .nav-link {
   color:  #AAF;
   font-weight: 300;

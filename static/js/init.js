@@ -3,6 +3,7 @@
 document.getElementById("file-upload").addEventListener("change", function() {
 
   document.getElementById('loading-div').style.display = "block";
+  document.getElementById('histogram-info-div').style.display = "none";
   document.getElementById('table-div').innerHTML = "";
   document.getElementById('data-stats-div').innerHTML = "";
 
@@ -22,28 +23,49 @@ document.getElementById("file-upload").addEventListener("change", function() {
 
 
 function load_data(fileObject) {
-  var data = d3.csv.parse(fileObject);
-  data = data.slice(0, 1000);
-  //create_table(data);
+  var data = d3.csvParse(fileObject);
+  data = data.slice(0, 10000);
+  document.getElementById("data").dataset.data = JSON.stringify(data);
 
-  console.log(data);
   document.getElementById('data-stats-div').innerHTML = `
     Dataset contains ${data.length} rows, ${Object.keys(data[0]).length} columns
   `;
 
-  //document.getElementById('table-div').innerHTML = JSON.stringify(data.slice(0, 5), null, 4);
-
-
   var [table, thead, tbody] = createFilledTable(
     data=data,
-    classes=['table', 'table-sm'],
+    classes=['table', 'table-sm', 'table-bordered'],
     divId='table-div',
   );
-
   Object.assign(table.style, {
     'font-size': '0.75rem',
   });
 
+
+
+  // build histogram
+  populateSelect('histogram-select', Object.keys(data[0]));
+  plotHistogram();
+  [`histogram-select`].forEach(x => {
+      var el = document.getElementById(x);
+      el.addEventListener('change', event => {
+        plotHistogram();
+      });
+  });
+
+
   document.getElementById('loading-div').style.display = "none";
+  document.getElementById('histogram-info-div').style.display = "block";
 
 };
+
+
+// when help button is clicked
+document.getElementById("help-btn").addEventListener("click", function() {
+  var helpContent = `
+    <h4>Using Data Buddy</h4>
+    Data Buddy is a suite of tools for visualizing, studying, and iteracting
+    with numerical datasets.
+    First upload a CSV file using the upload button.
+  `;
+  createWindow(title="Help", content=helpContent, loc=[60, 60]);
+}, false);

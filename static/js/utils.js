@@ -28,6 +28,25 @@ function createSelect(options, label='', id='', parentId='', classList=[]){
   return select;
 };
 
+
+function populateSelect(selectId, options, selectedIndex=0){
+  var select = document.getElementById(selectId);
+  for (let op of options){
+    var option = document.createElement("option");
+    option.value = op;
+    option.text = op;
+    select.appendChild(option);
+  };
+  select.value = options[selectedIndex];
+};
+
+function getStandardDeviation(numArray) {
+  const mean = numArray.reduce((s, n) => s + n) / numArray.length;
+  const variance = numArray.reduce((s, n) => s + (n - mean) ** 2, 0) / (numArray.length - 1);
+  return Math.sqrt(variance);
+}
+
+
 // Create a bootstrap row with multiple columns.
 // Returns an array containing each column.
 function createRowCols(parentdiv, ncols=2) {
@@ -124,4 +143,93 @@ function getRandomId(n=12) {
 // check if a string is a number
 function stringIsNumeric(str) {
   return !isNaN(str) && !isNaN(parseFloat(str));
+};
+
+
+
+
+
+
+function createWindow(title="My window title", content="Window content", loc=[30, 30]) {
+
+  console.log(title);
+  // create window
+  var win = document.createElement('div');
+  Object.assign(win.style, {
+    position: 'absolute',
+    top: `${loc[0]}px`,
+    left: `${loc[1]}px`,
+    backgroundColor: 'white',
+    boxShadow: '3px 3px 10px 3px rgba(0,0,0,0.5)',
+    //zIndex: 100,
+    resize: 'both',
+    overflow: 'auto',
+    minWidth: '250px',
+    minHeight: '50px',
+  });
+
+  // add window to main
+  document.getElementsByTagName('main')[0].appendChild(win);
+
+  // create window top title bar
+  var titleBar = document.createElement('div');
+  titleBar.classList.add('d-flex', 'justify-content-between');
+  win.appendChild(titleBar);
+  Object.assign(titleBar.style, {
+    padding: '5px',
+    cursor: 'move',
+    marginBottom: '5px',
+    borderBottom: '1px solid #ccc',
+    backgroundColor: '#dee2e6',
+  });
+  // create icon on title bar
+  var titleBarIcon = document.createElement('span');
+  titleBarIcon.innerHTML = `<i class="bi bi-arrows-move"></i>`;
+  titleBar.appendChild(titleBarIcon);
+  // create window title on title bar
+  var titleDiv = document.createElement('span');
+  titleDiv.innerHTML = `<strong>${title}</strong>`;
+  titleBar.appendChild(titleDiv);
+  // create close window button on title bar
+  var closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.classList.add("btn-close")
+  titleBar.appendChild(closeBtn);
+  Object.assign(closeBtn.style, {
+    cursor: 'pointer',
+  });
+  closeBtn.addEventListener('click', () => {
+    //win.style.display = "none";
+    closeBtn.parentNode.parentNode.remove();
+  }, false);
+
+  // create main window content
+  var windowContent = document.createElement('div');
+  win.appendChild(windowContent);
+  Object.assign(windowContent.style, {
+    padding: '5px',
+  });
+  windowContent.innerHTML = content;
+
+  // add draggable logic to window title bar
+  titleBar.addEventListener('mousedown', function(evt) {
+    // record where the window started
+    var real = window.getComputedStyle(win);
+    var winX = parseFloat(real.left);
+    var winY = parseFloat(real.top);
+    // record where the mouse started
+    var mX = evt.clientX;
+    var mY = evt.clientY;
+    // drag the window until the mouse button comes up
+    document.body.addEventListener('mousemove', drag, false);
+    document.body.addEventListener('mouseup', function() {
+      document.body.removeEventListener('mousemove', drag, false);
+    }, false);
+    function drag(evt){
+      // add difference between where the mouse is now
+      // versus where it was last to the original positions
+      win.style.left = winX + evt.clientX-mX + 'px';
+      win.style.top  = winY + evt.clientY-mY + 'px';
+    };
+  }, false);
 };
