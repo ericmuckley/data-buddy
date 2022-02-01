@@ -1,5 +1,3 @@
-# Meet your new data buddy
-
-Utilities for interacting with uploaded data.
+# Meet your new data buddy: a tool for interacting with uploaded data
 
 ### [Try it out](https://ericmuckley.github.io/data-buddy)
