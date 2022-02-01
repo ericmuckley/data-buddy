@@ -1,3 +1,3 @@
-# Data buddy: a tool for interacting with data
+# Data buddy: a tool for interacting with tabular data
 
 [Try it out](https://ericmuckley.github.io/data-buddy)
