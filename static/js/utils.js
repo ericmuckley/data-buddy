@@ -1,4 +1,26 @@
 
+// get Pearson r^2 correlation coefficient
+function getR2(x, y){
+  let sumX = 0,
+    sumY = 0,
+    sumXY = 0,
+    sumX2 = 0,
+    sumY2 = 0;
+  const minLength = x.length = y.length = Math.min(x.length, y.length),
+    reduce = (xi, idx) => {
+      const yi = y[idx];
+      sumX += xi;
+      sumY += yi;
+      sumXY += xi * yi;
+      sumX2 += xi * xi;
+      sumY2 += yi * yi;
+    }
+  x.forEach(reduce);
+  var R = (minLength * sumXY - sumX * sumY) / Math.sqrt((minLength * sumX2 - sumX * sumX) * (minLength * sumY2 - sumY * sumY));
+  return Math.pow(R, 2);
+};
+
+
 // create a select input using an array of options
 function createSelect(options, label='', id='', parentId='', classList=[]){
   var select = document.createElement("select");
@@ -29,7 +51,16 @@ function createSelect(options, label='', id='', parentId='', classList=[]){
 };
 
 
+function clearSelectOptions(selectId){
+  var select = document.getElementById(selectId);
+  while (select.options.length) {                
+    select.remove(0);
+  };
+};
+
+
 function populateSelect(selectId, options, selectedIndex=0){
+  clearSelectOptions(selectId)
   var select = document.getElementById(selectId);
   for (let op of options){
     var option = document.createElement("option");
@@ -39,12 +70,6 @@ function populateSelect(selectId, options, selectedIndex=0){
   };
   select.value = options[selectedIndex];
 };
-
-function getStandardDeviation(numArray) {
-  const mean = numArray.reduce((s, n) => s + n) / numArray.length;
-  const variance = numArray.reduce((s, n) => s + (n - mean) ** 2, 0) / (numArray.length - 1);
-  return Math.sqrt(variance);
-}
 
 
 // Create a bootstrap row with multiple columns.

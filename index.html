@@ -23,58 +23,120 @@
           <strong><em>DATA</em></strong>&nbsp;&#129488;&nbsp;<strong><em>BUDDY</em></strong>
         </span>
         <a href="https://github.com/ericmuckley/data-buddy" target="_blank" class='nav-link'>
-          <i class="bi bi-github"i></i>&nbsp;&nbsp;View source
+          <i class="bi bi-github"i></i>&nbsp;&nbsp;Source
         </a>
       </nav>  
 
       <div id="main-content" class="p-5 mt-3">
 
-        <div id="data" style="display:none;"></div>
-      
-        <div class="my-2 d-flex" style="display: flex; align-items: center;">
+
+        <div class="alert alert-light" role="alert" id="help-alert" style="display:none; border:1px solid darkorange; border-radius:15px;">
+          <div class="d-flex justify-content-between">
+            <h4>Using Data Buddy</h4>
+            <button type="button" class="btn-close" id='close-help-alert-btn'></button>
+          </div>
+          <p>
+            Data Buddy is a tool for visualizing, studying, and iteracting with numerical datasets.
+            First upload a CSV file using the upload button.
+          </p>
+        </div>
+
+
+        <!--
+        <div class="mt-2 d-flex" style="display: flex; align-items: center;">
           <span style="white-space: nowrap; font-size: 1.1rem;">
             Upload a CSV file&nbsp;&nbsp;
           </span>
           <input class="form-control form-control-sm rounded-pill" type="file" id="file-upload" accept=".csv,.CSV">
         </div>
+        <div class="d-flex justify-content-between">
+          <span></span>
+          <p class='fake-link' id="use-example-csv-btn" style="font-size:0.9rem;">
+            Don't have a CSV file ready? Use an example file
+          </p>
+          <span></span>
+        </div>
+        -->
+        <div class="d-flex justify-content-between" style='display:flex; align-items:flex-end;'>
+          <h5>Upload a CSV file</h5>
+          <div class='fake-link px-5' id="use-example-csv-btn" style="font-size:1rem;">
+            Don't have a CSV file ready? Use an example file
+          </div>
+        </div>
+        <input class="form-control form-control-sm rounded-pill mb-3" type="file" id="file-upload" accept=".csv,.CSV">
 
 
-        <div class="text-center" id='loading-div' style="display:none;">
+        <div class="text-center mt-2" id='loading-div' style="display:none;">
           <h3>Loading dataset...</h3>
           <div class="spinner-border" style="width: 5rem; height:5rem;">
           </div>
         </div>
 
-        <div id="data-stats-div" class='my-2'>
+        <div id="data-stats-div" class='my-1 text-center' style="font-size:1.5rem; font-weight:bold;">
         </div>
 
-        <div id="table-div" style="width:100%; overflow:auto; max-height:300px;">
-        </div>
-
-
-        <div class="my-div text-center mt-3" style="display:none;">
-          <h3>Scatter plot</h3>
-          <div id="scatter-plot-div" class='text-center'>
-          </div>
-        </div>
-
-
-        <div class="my-div mt-3" style="display:none;" id="histogram-info-div">
-          <h3>Histogram</h3>
-          <div class="my-2 d-flex" style="display: flex; align-items: center;">
-            <span style="white-space: nowrap; font-size: 1.1rem;">
-              Select column to plot&nbsp;&nbsp;
-            </span>
-            <select class="form-select form-select-sm shadow-none rounded-pill" id="histogram-select"></select>
-          </div>
-
-          <div class='d-flex'>
-            <div id="histogram-plot-div" class='text-center'>
+        <div id="plot-row" style="display:none;">
+          <div class="row mt-3">
+            
+            <div class="col my-div m-2">
+              <h4>Histogram</h4>
+              <div class="my-2 d-flex" style="display:flex; align-items: center;">
+                <span style="white-space: nowrap; font-size: 1.1rem;">
+                  Select column to plot&nbsp;&nbsp;
+                </span>
+                <select class="form-select form-select-sm shadow-none rounded-pill" id="histogram-select"></select>
+              </div>
+              <div class='d-flex'>
+                <div id="histogram-plot-div">
+                </div>
+                <div id="histogram-stats-div">
+                </div>
+              </div>
             </div>
-            <div id="histogram-stats-div">
+
+            <div class="col my-div m-2">
+              <h4>Scatter</h4>
+              <div class="my-2 d-flex" style="display:flex; align-items: center;">
+                <span style="white-space: nowrap; font-size: 1.1rem;">
+                  Select x-axis to plot&nbsp;&nbsp;
+                </span>
+                <select class="form-select form-select-sm shadow-none rounded-pill" id="x-axis-select"></select>
+              </div>
+              <div class="my-2 d-flex" style="display:flex; align-items: center;">
+                <span style="white-space: nowrap; font-size: 1.1rem;">
+                  Select y-axis to plot&nbsp;&nbsp;
+                </span>
+                <select class="form-select form-select-sm shadow-none rounded-pill" id="y-axis-select"></select>
+              </div>
+              <div class='d-flex'>
+                <div id="scatter-plot-div">
+                </div>
+                <div id="scatter-stats-div">
+                </div>
+              </div>
             </div>
+
+            <div class="col my-div m-2">
+              <h4>Pearson <emph>r<sup>2</sup></emph> correlations</h4>
+              <div id="correlation-map-div" class='mt-2 text-center'>
+              </div>
+            </div>
+
+            <!--
+            <div class="col my-div m-2">
+              <h4>Column details</h4>
+              <div id="column-details-div" style="width:100%; overflow:auto; max-height:300px;">
+              </div>
+            </div>
+            -->
+
+            <div class="col my-div m-2">
+              <h4>Dataset</h4>
+              <div id="table-div" style="width:100%; overflow:auto; max-height:300px;">
+              </div>
+            </div>
+
           </div>
-          
         </div>
 
       </div>

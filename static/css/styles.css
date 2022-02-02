@@ -45,7 +45,7 @@ label:focus,
 .my-div {
   border: 1px solid darkorange;
   border-radius: 15px;
-  padding: 10px;
+  padding: 15px;
   background-color: #dee2e6;
   /*box-shadow: 0px 1px 3px darkorange;*/
 }
@@ -54,6 +54,7 @@ label:focus,
 
 .navbar .nav-link {
   color: darkorange;
+  font-size: 1.2rem;
   /*
   font-weight: 400;
   font-size: 1.25rem;
@@ -63,12 +64,29 @@ label:focus,
   */
 }
 .navbar .nav-link:hover {
-  color: #dee2e6;
+  color: white;
   /*
   border-bottom: 5px solid #dee2e6;
   margin-bottom: -5px;
   */
 }
+
+
+.fake-link {
+  color: black;
+  text-decoration: underline;
+  cursor: pointer;
+}
+.fake-link:hover{
+  color: darkorange;
+  cursor: pointer;
+  text-decoration: underline;
+  /*
+  text-underline-offset: 0.2rem;
+  text-decoration-thickness: 0.3rem;
+  */
+}
+
 
 
 /*
