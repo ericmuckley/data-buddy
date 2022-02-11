@@ -166,7 +166,7 @@ document.getElementById('secret-btn').addEventListener('click', () => {
 
 
 
-  const [win, windowBody] = createWindow(title="My new window!!!");
+  const [win, windowBody] = createWindow(title="My new plot (this title is editable)");
   
   const myId  = getRandomId();
   const plotId = `${myId}-plot`;
@@ -179,19 +179,16 @@ document.getElementById('secret-btn').addEventListener('click', () => {
 
   function resizePlot() {
     if (document.getElementById(plotId)){
-
-
       Plotly.relayout(plotId, {
         'height': windowBody.clientHeight - 10, // these offset values must be exactly twice the size of the window content padding!
         'width': windowBody.clientWidth - 10,
         'xaxis.autorange': true,
         'yaxis.autorange': true,
       });
-    }
-
-   }
+    };
+  };
    
-   new ResizeObserver(resizePlot).observe(windowBody);
+   new ResizeObserver(resizePlot).observe(win);
 
 
 }, false);
@@ -201,7 +198,7 @@ document.getElementById('secret-btn').addEventListener('click', () => {
 
 function plotResponsiveScatter(plotId) {
   var traces = [{
-    x: [1, 2, 3, 4],
+    x: [-2, 2, 3, 4],
     y: [-0.2, 0.9, 1.5, 3.6],
     mode: 'lines+markers',
     type: 'scatter',
@@ -213,11 +210,11 @@ function plotResponsiveScatter(plotId) {
     },
   }];
   var layout = {  
-    //xaxis: {title: "X-axis", automargin: true},
-    //yaxis: {title: "Y-axis", automargin: true},
+    xaxis: {title: "X-axis", automargin: true},
+    yaxis: {title: "Y-axis", automargin: true},
     autosize: true,
     hovermode:'closest',
-    margin: {l: 0, r: 0, b: 0, t: 0, pad: 0},
+    margin: {l: 60, r: 20, b: 100, t: 0, pad: 0},
     showlegend: false,
     plot_bgcolor: "white",
     paper_bgcolor: "white",
@@ -231,7 +228,7 @@ function plotResponsiveScatter(plotId) {
 // Inputs are title (string), and content (DOM element)
 function createWindow(title="My window title") {
   // create window
-  var win = document.createElement('div');
+  const win = document.createElement('div');
   Object.assign(win.style, {
     position: 'absolute',
     top: '300px',
@@ -243,52 +240,82 @@ function createWindow(title="My window title") {
     minWidth: '250px',
     minHeight: '50px',
     borderRadius: "5px",
-    overflow: "auto",
+    overflow: "hidden",
   });
 
   // add window to main
   document.getElementsByTagName('main')[0].appendChild(win);
 
   // create window top title bar
-  var titleBar = document.createElement('div');
+  const titleBar = document.createElement('div');
   titleBar.classList.add('d-flex', 'justify-content-between');
   win.appendChild(titleBar);
   Object.assign(titleBar.style, {
     padding: '5px',
     cursor: 'move',
-    marginBottom: '5px',
+    //marginBottom: '5px',
     borderBottom: '1px solid #ccc',
     backgroundColor: '#dee2e6',
   });
   // create icon on title bar
-  var titleBarIcon = document.createElement('span');
+  const titleBarIcon = document.createElement('span');
   titleBarIcon.innerHTML = `<i class="bi bi-arrows-move"></i>`;
   titleBar.appendChild(titleBarIcon);
   // create window title on title bar
-  var titleDiv = document.createElement('span');
+  const titleDiv = document.createElement('span');
   titleDiv.contentEditable = "true";
   Object.assign(titleDiv.style, {
     fontWeight: "bold",
     outline: "0px solid transparent",
+    cursor: "text",
   });
   titleDiv.innerHTML = title;
   titleBar.appendChild(titleDiv);
 
-  // create close window button on title bar
-  var closeBtn = document.createElement('button');
-  closeBtn.type = 'button';
-  closeBtn.classList.add("btn-close")
-  titleBar.appendChild(closeBtn);
-  Object.assign(closeBtn.style, {
-    cursor: 'pointer',
-  });
-  closeBtn.addEventListener('click', () => {
-    //win.style.display = "none";
-    closeBtn.parentNode.parentNode.remove();
+
+  // create div for buttons
+  const btnDiv = document.createElement('div');
+  titleBar.appendChild(btnDiv);
+
+  // create dock window button on title bar
+  const dockBtn = document.createElement('button');
+  dockBtn.type = 'button';
+  dockBtn.classList.add("btn", "btn-sm", "bg-transparent", "text-dark");
+  dockBtn.innerHTML = "<i class='bi bi-arrows-expand'></i>";
+  dockBtn.dataset.expanded = "true";
+  btnDiv.appendChild(dockBtn);
+  //Object.assign(dockBtn.style, {cursor: 'pointer',});
+  dockBtn.addEventListener('click', () => {
+    if (dockBtn.dataset.expanded === "true"){
+      // if window is currently expanded, minimize it
+      dockBtn.dataset.height = win.clientHeight;
+      //dockBtn.dataset.width = win.clientWidth;
+      Object.assign(win.style, {
+        height: '50px',
+        //width: '400px',
+      });
+      dockBtn.dataset.expanded = "false";
+    } else {
+      // if window is currently minimized, expand it
+      Object.assign(win.style, {
+        height: `${dockBtn.dataset.height}px`,
+        //width: `${dockBtn.dataset.width}px`,
+      });
+      dockBtn.dataset.expanded = "true";
+    };
   }, false);
 
+  // create close window button on title bar
+  const closeBtn = document.createElement('button');
+  closeBtn.type = 'button';
+  closeBtn.classList.add("btn", "btn-sm", "bg-transparent", "text-dark")
+  closeBtn.innerHTML = "<i class='bi bi-x-lg'></i>";
+  btnDiv.appendChild(closeBtn);
+  //Object.assign(closeBtn.style, {cursor: 'pointer'});
+  closeBtn.addEventListener('click', () => {win.remove()}, false);
+
   // create main window content
-  var windowBody = document.createElement('div');
+  const windowBody = document.createElement('div');
   win.appendChild(windowBody);
   Object.assign(windowBody.style, {
     padding: '5px',
