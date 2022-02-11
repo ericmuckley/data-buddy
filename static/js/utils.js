@@ -258,3 +258,15 @@ function createWindow(title="My window title", content="Window content", loc=[30
     };
   }, false);
 };
+
+
+
+// generate random string to use as a DOM ID
+function getRandomId(n=12) {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghiklmnopqrstuvwxyz'.split('');
+  var id = '';
+  for (let i = 0; i < n; i++) {
+      id += chars[Math.floor(Math.random() * chars.length)];
+  };
+  return id;
+};
